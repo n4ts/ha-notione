@@ -1,7 +1,8 @@
 {
   "domain": "notione",
   "name": "notiOne",
-  "documentation": "https://www.home-assistant.io/integrations/notione",
+  "homeassistant": "0.104.0",
+  "documentation": "https://github.com/n4ts/ha-notione",
   "requirements": [],
   "dependencies": [],
   "codeowners": ["@n4ts"]
