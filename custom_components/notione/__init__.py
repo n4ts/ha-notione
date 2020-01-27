@@ -1,0 +1,1 @@
+"""The notione component."""
