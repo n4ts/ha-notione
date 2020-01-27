@@ -1,7 +1,5 @@
 {
   "name": "notiOne",
   "homeassistant": "0.104.3",
-  "iot_class": "cloud_poll",
-  "domains": ["device_tracker"],
   "country": "PL"
 }
