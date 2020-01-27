@@ -71,7 +71,7 @@ class NotiOneTracker:
 
         ses = requests.Session()
         req = ses.post(login, data=payload, verify=False)
-        res = ses.get(list)
+        res = ses.get(list, verify=False)
 
         json_object = json.loads(res.text)
 
