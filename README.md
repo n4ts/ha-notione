@@ -12,6 +12,7 @@ This device tracker uses unofficial API to get data from https://web.notione.com
 | `password` | `string` | `True` | - | Password from notiOne |
 | `scan_interval` | `int` | `False` | 300 | Scan interval |
 
+## View
 ![Screenshot](https://github.com/n4ts/ha-notione/blob/master/images/notione.png?raw=true)
 
 ## Usage:
