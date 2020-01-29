@@ -1,5 +1,6 @@
 {
   "name": "notiOne",
   "homeassistant": "0.104.0",
+  "domains": ["device_tracker"],
   "country": "PL"
 }
