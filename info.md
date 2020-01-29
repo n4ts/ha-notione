@@ -1,5 +1,7 @@
 [![Hacs Badge][hacs-badge]][hacs-badge-url]
 
+![Screenshot](https://github.com/n4ys/ha-notione/blob/master/images/notione.png?raw=true)
+
 ## Usage:
 Add to configuration.yaml:
 
