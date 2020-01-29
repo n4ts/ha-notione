@@ -26,7 +26,7 @@ device_tracker:
 
 ## Installation
 
-Download [*binary_sensor.py*](https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/device_tracker.py), ['__init__.py'*](https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/__init__.py) and [*manifest.json*](https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/manifest.json) to `config/custom_components/notione` directory:
+Download [*binary_sensor.py*](https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/device_tracker.py), [\_\_init\_\_.py*](https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/__init__.py) and [*manifest.json*](https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/manifest.json) to `config/custom_components/notione` directory:
 ```bash
 mkdir -p custom_components/notione
 cd custom_components/notione
