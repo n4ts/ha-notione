@@ -93,6 +93,12 @@ class NotiOneTracker:
             accuracy = dev['beaconPositions']['accuracy']
             city = dev['beaconPositions']['city']
             street = dev['beaconPositions']['street']
+            battery = dev['battery']
+
+            if battery:
+                battery_status = 'low'
+            else:
+                battery_status = 'high'
 
             attrs = {
                 'friendly_name': dev_id ,
@@ -101,6 +107,7 @@ class NotiOneTracker:
                 'gps_accuracy': accuracy ,
                 'beaconid': beaconid ,
                 'location': street + ',' +city ,
+                'battery_status': battery_status ,
                 'icon': MDI_ICON
             }
 
