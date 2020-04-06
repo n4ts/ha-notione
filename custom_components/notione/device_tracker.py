@@ -95,6 +95,11 @@ class NotiOneTracker:
             street = dev['beaconPositions']['street']
             battery = dev['battery']
 
+            if city is None:
+                city = ''
+            if street is None:
+                street = ''
+
             if battery:
                 battery_status = 'low'
             else:
