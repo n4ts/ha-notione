@@ -43,5 +43,6 @@ wget https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/__i
 [downloads-total-shield]: https://img.shields.io/github/downloads/n4ts/ha-notione/total?style=for-the-badge
 [hacs-badge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [hacs-badge-url]: https://github.com/custom-components/hacs
-[paypal-me-shield]: https://img.shields.io/static/v1.svg?label=%20&message=PayPal.Me&logo=paypal
+[paypal-me-shield]: https://img.shields.io/badge/PayPal.Me-stanpielak-blue?style=for-the-badge
 [paypal-me]: https://www.paypal.me/stanpielak
+
