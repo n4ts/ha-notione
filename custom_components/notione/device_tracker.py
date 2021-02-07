@@ -3,8 +3,7 @@
 from datetime import datetime,timedelta
 import logging
 
-import requests
-import json
+import requests,json
 
 import voluptuous as vol
 
@@ -15,13 +14,22 @@ from homeassistant.helpers.event import track_utc_time_change
 from homeassistant.util import slugify
 from homeassistant.util import dt
 
+import urllib3
+urllib3.disable_warnings()
+
 _LOGGER = logging.getLogger(__name__)
 
 SCAN_INTERVAL = timedelta(seconds=300)
 MDI_ICON = 'mdi:bluetooth-connect'
 
-list = 'https://web.notione.com/beacon/list'
-login = 'https://web.notione.com/login'
+token_url = 'https://auth.notinote.me/oauth/token'
+list_url = 'https://api.notinote.me/secured/internal/devicelist'
+
+auth_login = 'test-oauth-client-id'
+auth_pass = '$2y$12$vXOUtEenVFCO1Zgy2YiePuF3WF/sDgNO3YnhRjl49NIDlEbGeSeOu'
+
+grant_type = 'password'
+scope = 'NOTI'
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_USERNAME): cv.string,
@@ -64,36 +72,44 @@ class NotiOneTracker:
 
         _LOGGER.info("Updating device info")
 
-        payload = {
+        data = {
+          'grant_type': grant_type,
           'username': self.username,
           'password': self.password,
+          'scope': scope
         }
 
-        ses = requests.Session()
-        req = ses.post(login, data=payload, verify=False)
-        res = ses.get(list, verify=False)
+        access_token_response = requests.post(token_url, data=data, verify=False, allow_redirects=False, auth=(auth_login, auth_pass))
 
-        json_object = json.loads(res.text)
+        tokens = json.loads(access_token_response.text)
+        access_token = tokens['access_token']
 
-        for dev in json_object:
+        api_call_headers = {'Authorization': 'Bearer ' + access_token}
+        api_call_response = requests.get(list_url, headers=api_call_headers, verify=False)
 
-            tracker_id = dev['beaconPositions']['beaconId']
-            dev_id = dev['description']
+        json_object = json.loads(api_call_response.text)
+
+        for dev in json_object['deviceList']:
+
+            tracker_id = dev['deviceId']
+            dev_id = dev['name']
 
             _LOGGER.info('New device: %s', dev_id)
 
             if dev_id is None:
                 dev_id = tracker_id
 
-            lat = dev['beaconPositions']['latitude']
-            lon = dev['beaconPositions']['longitude']
-            beaconid = dev['beaconPositions']['beaconId']
-            gpstime = datetime.fromtimestamp(dev['beaconPositions']['gpstime']/1000.0)
-            entity_picture = dev['avatarUrl']
-            accuracy = dev['beaconPositions']['accuracy']
-            city = dev['beaconPositions']['city']
-            street = dev['beaconPositions']['street']
-            battery = dev['battery']
+            lat = dev['lastPosition']['latitude']
+            lon = dev['lastPosition']['longitude']
+            beaconid = dev['deviceId']
+            deviceVersion = dev['deviceVersion']
+            gpstime = datetime.fromtimestamp(dev['lastPosition']['gpstime']/1000.0)
+            entity_picture = dev['avatar']
+            accuracy = dev['lastPosition']['accuracy']
+            city = dev['lastPosition']['geocodeCity']
+            street = dev['lastPosition']['geocodePlace']
+            battery = dev['notiOneDetails']['battery']
+            mac = dev['notiOneDetails']['mac']
 
             if city is None:
                 city = ''
@@ -105,17 +121,20 @@ class NotiOneTracker:
             else:
                 battery_status = 'high'
 
+            if entity_picture[0:4] != 'http':
+                entity_picture = ''
+
             attrs = {
                 'friendly_name': dev_id ,
                 'gpstime': gpstime ,
                 'entity_picture': entity_picture ,
-                'gps_accuracy': accuracy ,
                 'beaconid': beaconid ,
-                'location': street + ',' +city ,
+                'location': street + ',' + city ,
                 'battery_status': battery_status ,
+                'deviceVersion': deviceVersion , 
                 'icon': MDI_ICON
             }
 
             self.see(
-                dev_id=dev_id, gps=(lat, lon), attributes=attrs
+                dev_id=tracker_id, host_name=dev_id, mac=mac, gps=(lat, lon), gps_accuracy=accuracy, attributes=attrs
             )
