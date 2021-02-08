@@ -4,7 +4,7 @@
 [![Hacs Badge][hacs-badge]][hacs-badge-url]
 [![PayPal_Me][paypal-me-shield]][paypal-me]
 
-This device tracker uses unofficial API to get data from https://web.notione.com/index.html
+This device tracker uses unofficial API to get data from https://panel.notione.com/
 
 ## Configuration options
 | Key | Type | Required | Default | Description |
