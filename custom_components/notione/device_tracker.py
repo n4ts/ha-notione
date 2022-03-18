@@ -108,8 +108,16 @@ class NotiOneTracker:
             accuracy = dev['lastPosition']['accuracy']
             city = dev['lastPosition']['geocodeCity']
             street = dev['lastPosition']['geocodePlace']
-            battery = dev['notiOneDetails']['battery']
-            mac = dev['notiOneDetails']['mac']
+            
+            if dev['notiOneDetails'] is not None:
+                battery = dev['notiOneDetails']['battery']
+                mac = dev['notiOneDetails']['mac']
+            else:
+                battery = dev['gpsDetails']['battery']
+                mac = dev['gpsDetails']['imei']
+
+            if entity_picture is None:
+                entity_picture = ''
 
             if city is None:
                 city = ''
