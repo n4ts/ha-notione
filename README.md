@@ -1,6 +1,5 @@
 # notiOne Device Tracker
 [![GitHub Release][releases-shield]][releases]
-[![GitHub All Releases][downloads-total-shield]][releases]
 [![Hacs Badge][hacs-badge]][hacs-badge-url]
 [![PayPal_Me][paypal-me-shield]][paypal-me]
 
@@ -40,7 +39,6 @@ wget https://github.com/n4ts/ha-notione/raw/master/custom_components/notione/__i
 
 [releases]: https://github.com/n4ts/ha-notione/releases
 [releases-shield]: https://img.shields.io/github/release/n4ts/ha-notione.svg?style=for-the-badge
-[downloads-total-shield]: https://img.shields.io/github/downloads/n4ts/ha-notione/total?style=for-the-badge
 [hacs-badge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
 [hacs-badge-url]: https://github.com/custom-components/hacs
 [paypal-me-shield]: https://img.shields.io/badge/PayPal.Me-stanpielak-blue?style=for-the-badge
