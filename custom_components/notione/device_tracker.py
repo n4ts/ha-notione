@@ -11,6 +11,7 @@ from homeassistant.components.device_tracker import PLATFORM_SCHEMA
 from homeassistant.const import CONF_USERNAME, CONF_PASSWORD, CONF_SCAN_INTERVAL
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import track_utc_time_change
+from homeassistant.helpers.event import track_point_in_utc_time
 from homeassistant.util import slugify
 from homeassistant.util import dt
 
@@ -62,7 +63,7 @@ class NotiOneTracker:
             try:
                 self._update_info()
             finally:
-                hass.helpers.event.track_point_in_utc_time(
+                track_point_in_utc_time(hass,
                     update_interval, dt.utcnow() + interval)
 
         update_interval(None)
@@ -84,7 +85,10 @@ class NotiOneTracker:
         tokens = json.loads(access_token_response.text)
         access_token = tokens['access_token']
 
-        api_call_headers = {'Authorization': 'Bearer ' + access_token}
+        api_call_headers = {
+            'Authorization': 'Bearer ' + access_token,
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 OPR/90.0.4480.54'
+        }
         api_call_response = requests.get(list_url, headers=api_call_headers, verify=False)
 
         json_object = json.loads(api_call_response.text)
@@ -133,13 +137,15 @@ class NotiOneTracker:
                 entity_picture = ''
 
             attrs = {
+                'unique_id': tracker_id,
+                'name': 'notiOne',
                 'friendly_name': dev_id ,
                 'gpstime': gpstime ,
                 'entity_picture': entity_picture ,
                 'beaconid': beaconid ,
-                'location': street + ',' + city ,
+                'location': street + ', ' + city ,
                 'battery_status': battery_status ,
-                'deviceVersion': deviceVersion , 
+                'deviceVersion': 'notiOne ' + deviceVersion, 
                 'icon': MDI_ICON
             }
 
